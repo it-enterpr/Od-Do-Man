@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+        <record id="ai_ocr_wizard_tree" model="ir.ui.view">
+            <field name="name">ai.ocr.wizard.tree</field>
+            <field name="model">ai.ocr.wizard</field>
+            <field name="arch" type="xml">
+                <list default_order="state desc created_at asc">
+                    <field name="date" />
+                    <field name="type" />
+                    <field name="state" />
+                    <field name="user_id" />
+                    <field name="amount" />
+                    <field name="invoice_id" />
+                    <field name="expense_id" />
+                    <field name="related_sale_order_id" />
+                    <field name="related_project_task_id" />
+                </list>
+            </field>
+        </record>
+
+        <record id="ai_ocr_wizard_form" model="ir.ui.view">
+            <field name="name">ai_ocr_wizard_name</field>
+            <field name="model">ai.ocr.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_process" string="Process" type="object" class="oe_highlight" invisible="state != 'draft' or file == False" />
+                        <button name="action_process" string="Process Again" type="object" class="oe_highlight" invisible="state != 'error' or file == False" />
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="file" filename="file_name" />
+                                <field name="file_name" invisible="1"/>
+                                <field name="time_of_last_processing" />
+                                <field name="create_date" />
+                                <field name="user_processed_id" />
+                                <field name="related_sale_order_id" />
+                                <field name="related_project_task_id" />
+                                <field name="user_id" />
+                                <field name="amount" />
+                            </group>
+                            <group>
+                                <field name="type" />
+                                <field name="state" readonly="1" />
+                                <field name="invoice_id" readonly="1" invisible="invoice_id == False" />
+                                <field name="expense_id" readonly="1" invisible="expense_id == False" />
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Errores">
+                                <field name="errors" nolabel="1" readonly="1" />
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="o_attachment_preview o_center_attachment"/>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+    <!-- search view-->
+    <record id="ai_ocr_wizard_search" model="ir.ui.view">
+        <field name="name">ai.ocr.wizard.search</field>
+        <field name="model">ai.ocr.wizard</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="file_name" />
+                <field name="date" />
+                <field name="type" />
+                <field name="user_id" />
+            </search>
+        </field>
+    </record>
+
+    <record id="action_ai_ocr_wizard" model="ir.actions.act_window">
+        <field name="name">AI OCR Wizard</field>
+        <field name="res_model">ai.ocr.wizard</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="ai_ocr_wizard_menu" name="AI OCR Wizard" sequence="1" action="action_ai_ocr_wizard" groups="base.group_user"></menuitem>
+    </data>
+
+
+</odoo>
